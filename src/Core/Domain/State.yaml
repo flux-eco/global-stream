@@ -1,0 +1,29 @@
+---
+$id: urn:ch:flux-app::GlobalStream
+name: GlobalStream
+properties:
+  sequence:
+    type: integer
+  correlationId:
+    type: string
+  createdBy:
+    type: string
+    format: email
+  createdDateTime:
+    type: string
+    format: date-time
+  subject:
+    type: string
+  subjectId:
+    type: string
+  subjectSequence:
+    type: integer
+  subjectName:
+    type: string
+  jsonRootObjectSchema:
+    type: object
+  eventName:
+    type: string
+  currentState:
+    type: object
+...
