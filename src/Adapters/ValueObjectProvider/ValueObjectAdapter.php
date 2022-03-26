@@ -3,7 +3,7 @@
 namespace FluxEco\GlobalStream\Adapters\ValueObjectProvider;
 
 use FluxEco\GlobalStream\Core\Domain;
-use Flux\Eco\ObjectProvider\ValueObject\Adapters\Api;
+use FluxEco\ValueObjectAdapters\Api;
 
 class ValueObjectAdapter
 {
