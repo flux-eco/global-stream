@@ -3,7 +3,7 @@
 namespace FluxEco\GlobalStream\Adapters\Storage;
 
 use FluxEco\GlobalStream\Core\{Domain, Ports};
-use Flux\Eco\Storage\Adapters\Api\StorageApi;
+use FluxEco\Storage\Adapters\Api\StorageApi;
 
 class GlobalStreamStorageClient implements Ports\Storage\GlobalStreamStorageClient
 {
