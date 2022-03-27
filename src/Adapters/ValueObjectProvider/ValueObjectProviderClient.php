@@ -3,7 +3,7 @@
 namespace FluxEco\GlobalStream\Adapters\ValueObjectProvider;
 
 use  FluxEco\GlobalStream\Core\Ports;
-use FluxEco\ValueObjectAdapters\Api;
+use FluxEco\ValueObject\Adapters\Api;
 
 class ValueObjectProviderClient implements Ports\ValueObject\ValueObjectProviderClient
 {
