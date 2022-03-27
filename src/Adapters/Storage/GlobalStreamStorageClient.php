@@ -26,9 +26,6 @@ class GlobalStreamStorageClient implements Ports\Storage\GlobalStreamStorageClie
         if (array_key_exists(self::SEQUENCE_COLUMN_NAME, $jsonSchema['properties']) === false) {
             throw new \Exception('An global stream storage schema MUST contain a ' . self::SEQUENCE_COLUMN_NAME . ' column!');
         }
-        echo PHP_EOL;
-        echo "createStorage";
-        echo PHP_EOL;
         $this->storageApi->createStorage(null);
     }
 
