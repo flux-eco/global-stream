@@ -26,28 +26,10 @@
   "support": {
     "email": "support@fluxlabs.ch"
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "ssh://git@git.fluxlabs.ch:10022/fluxlabs/flux-eco/projection.git"
-    },
-    {
-      "type": "vcs",
-      "url": "ssh://git@git.fluxlabs.ch:10022/fluxlabs/flux-eco/storage.git"
-    },
-    {
-      "type": "vcs",
-      "url": "ssh://git@git.fluxlabs.ch:10022/fluxlabs/flux-eco/value-object.git"
-    },
-    {
-      "type": "vcs",
-      "url": "ssh://git@git.fluxlabs.ch:10022/fluxlabs/flux-eco/json-schema-document.git"
-    }
-  ],
   "require": {
-    "flux-eco/projection": "dev-main",
-    "flux-eco/storage": "dev-main",
-    "flux-eco/json-schema-document": "dev-main",
+    "flux-eco/projection": ">=0.0.1",
+    "flux-eco/storage": ">=0.0.1",
+    "flux-eco/json-schema-document": ">=0.0.1",
     "php": ">=8.0",
     "ext-curl": "*",
     "ext-json": "*",
