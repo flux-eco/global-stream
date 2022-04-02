@@ -1,17 +1,12 @@
 {
   "name": "flux-eco/global-stream",
-  "description": "Component for flux-capacitor apps developed by fluxlabs ag",
-  "version": "0.0.1",
+  "description": "Stores cross domain events and publishes them to subscribed consumers",
+  "version": "0.0.2",
   "type": "flux-app",
   "keywords": [
-    "flux-ecosystem",
-    "flux-capacitor",
-    "fluxlabs ag",
-    "microservice",
-    "event sourcing",
-    "cqrs",
-    "json schema",
-    "asyncapi"
+    "flux-eco",
+    "global-stream",
+    "fluxlabs"
   ],
   "homepage": "https://fluxlabs.ch",
   "license": "GPL-3.0-only",
