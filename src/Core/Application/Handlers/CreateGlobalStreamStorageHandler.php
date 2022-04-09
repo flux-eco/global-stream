@@ -6,29 +6,29 @@ use FluxEco\GlobalStream\Core\{Ports};
 
 class CreateGlobalStreamStorageHandler
 {
-    private Ports\Storage\GlobalStreamStorageClient $globalStreamStorageClient;
+    private  Ports\Outbounds $outbounds;
 
 
     private function __construct(
-        Ports\Storage\GlobalStreamStorageClient $globalStreamStorageClient)
+        Ports\Outbounds $outbounds
+    )
     {
-        $this->globalStreamStorageClient = $globalStreamStorageClient;
+        $this->outbounds = $outbounds;
     }
 
     public static function new(
-        Ports\Storage\GlobalStreamStorageClient $globalStreamStorageClient
+        Ports\Outbounds $outbounds,
     ): self
     {
         return new self(
-            $globalStreamStorageClient
+            $outbounds
         );
     }
 
 
-    public function handle(CreateGlobalStreamStorageCommand $command)
+    public function handle()
     {
-        $schema = $command->getSchema();
-        $this->globalStreamStorageClient->createGlobalStreamStorage($schema);
+        $this->outbounds->createGlobalStreamStorage();
     }
 
 }

@@ -6,58 +6,38 @@ use FluxEco\GlobalStream\Core\{Domain, Application\Handlers, Ports};
 
 class GlobalStreamService
 {
-    private array $stateSchema;
-    private Ports\Storage\GlobalStreamStorageClient $globalStreamStorageClient;
-    private Ports\Publisher\StatePublisher $statePublisher;
+    private Ports\Outbounds $outbounds;
     private Domain\GlobalStream $globalStream;
-    private Ports\ValueObject\ValueObjectProviderClient $valueObjectProvider;
 
     private function __construct(
-        array                                       $stateSchema,
-        Ports\Storage\GlobalStreamStorageClient     $globalStreamStorageClient,
-        Ports\Publisher\StatePublisher              $statePublisher,
+        Ports\Outbounds $outbounds,
         Domain\GlobalStream                         $globalStream,
-        Ports\ValueObject\ValueObjectProviderClient $valueObjectProvider
     )
     {
-        $this->globalStreamStorageClient = $globalStreamStorageClient;
-        $this->statePublisher = $statePublisher;
-        $this->stateSchema = $stateSchema;
+        $this->outbounds = $outbounds;
         $this->globalStream = $globalStream;
-        $this->valueObjectProvider = $valueObjectProvider;
     }
 
     final public static function new(
-        Ports\Configs\GlobalStreamOutbounds $globalStreamOutbounds,
+        Ports\Outbounds $outbounds,
         array $subjectNames
     ): self
     {
-        $stateSchema = $globalStreamOutbounds->getJsonSchema();
-        $globalStreamStorageClient = $globalStreamOutbounds->getGlobalStreamStorageClient();
-        $statePublisher = $globalStreamOutbounds->getStatePublisher();
 
         $globalStream = Domain\GlobalStream::new(
-            $globalStreamStorageClient, $statePublisher, $subjectNames
+            $outbounds, $subjectNames
         );
-        $valueObjectProvider = $globalStreamOutbounds->getValueObjectProvider();
 
         return new self(
-            $stateSchema,
-            $globalStreamStorageClient,
-            $statePublisher,
-            $globalStream,
-            $valueObjectProvider
+            $outbounds,
+            $globalStream
         );
     }
 
     final public function createGlobalStreamStorage(): void
     {
-        $schema = $this->stateSchema;
-        $storageClient = $this->globalStreamStorageClient;
-
-        $command = Handlers\CreateGlobalStreamStorageCommand::new($schema);
-        $handler = Handlers\CreateGlobalStreamStorageHandler::new($storageClient);
-        $handler->handle($command);
+        $handler = Handlers\CreateGlobalStreamStorageHandler::new($this->outbounds);
+        $handler->handle();
     }
 
     final public function publishStateChange(
@@ -73,9 +53,8 @@ class GlobalStreamService
     ): void
     {
         $globalStream = $this->globalStream;
-        $valueObjectProvider = $this->valueObjectProvider;
         $sequence = $this->globalStream->getNextSequence();
-        $createdDateTime = $valueObjectProvider->createCurrentTime();
+        $createdDateTime = $this->outbounds->getCurrentTime();
 
         $state = Domain\StateChanged::new(
             $sequence,
@@ -97,7 +76,7 @@ class GlobalStreamService
     final function republishAllStates() {
         $states = $this->globalStream->getStates();
         foreach($states as $state) {
-            $this->statePublisher->publish($state);
+            $this->outbounds->publishStateChanged($state);
         }
     }
 }

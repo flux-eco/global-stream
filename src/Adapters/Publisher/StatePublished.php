@@ -1,6 +1,6 @@
 <?php
 
-namespace FluxEco\GlobalStream\Adapters\Api;
+namespace FluxEco\GlobalStream\Adapters\Publisher;
 
 interface StatePublished
 {

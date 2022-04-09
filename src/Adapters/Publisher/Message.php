@@ -3,9 +3,8 @@
 
 namespace FluxEco\GlobalStream\Adapters\Publisher;
 
-use FluxEco\GlobalStream\Adapters\Api;
 
-class Message implements Api\StatePublished
+class Message implements StatePublished
 {
 
     private array $headers;
