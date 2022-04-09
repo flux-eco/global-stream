@@ -15,17 +15,14 @@ class GlobalStream
     private array $recordedStates = [];
     private array $states = [];
     private int $lastSequence = 0;
-    private Ports\Storage\GlobalStreamStorageClient $globalStreamStorageClient;
-    private Ports\Publisher\StatePublisher $statePublisher;
+    private Ports\Outbounds $outbounds;
 
 
     private function __construct(
-        Ports\Storage\GlobalStreamStorageClient $globalStreamStorageClient,
-        Ports\Publisher\StatePublisher          $statePublisher
+        Ports\Outbounds $outbounds
     )
     {
-        $this->globalStreamStorageClient = $globalStreamStorageClient;
-        $this->statePublisher = $statePublisher;
+        $this->outbounds = $outbounds;
     }
 
     final public function getNextSequence(): int
@@ -34,13 +31,12 @@ class GlobalStream
     }
 
     public static function new(
-        Ports\Storage\GlobalStreamStorageClient $globalStreamStorageClient,
-        Ports\Publisher\StatePublisher          $statePublisher,
-        array                                   $subjectNames
+        Ports\Outbounds $outbounds,
+        array  $subjectNames
     ): self
     {
         if (static::$instance === null) {
-            static::$instance = new self($globalStreamStorageClient, $statePublisher);
+            static::$instance = new self($outbounds);
         }
         foreach ($subjectNames as $subjectName) {
             if (!array_key_exists($subjectName, static::$instance->loadedSubjects)) {
@@ -52,7 +48,7 @@ class GlobalStream
 
     final public function loadCurrentStates(string $subjectName): void
     {
-        $queriedRows = $this->globalStreamStorageClient->queryStates($subjectName);
+        $queriedRows = $this->outbounds->queryStates($subjectName);
         foreach ($queriedRows as $state) {
             $subjectId = $state->getSubjectId();
             $this->applyState($subjectId, $state);
@@ -75,7 +71,7 @@ class GlobalStream
 
     private function publish(StateChanged $state): void
     {
-        $this->statePublisher->publish($state);
+        $this->outbounds->publishStateChanged($state);
     }
 
     final public function applyState(string $subjectId, StateChanged $state): void
@@ -126,7 +122,7 @@ class GlobalStream
     {
         if ($this->hasRecordedStates() === true) {
             foreach ($this->recordedStates as $recordedState) {
-                $this->globalStreamStorageClient->storeState(
+                $this->outbounds->storeState(
                     $recordedState->getSequence(),
                     $recordedState->getCorrelationId(),
                     $recordedState->getCreatedBy(),
