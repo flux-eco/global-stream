@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## [1.0.1]
+* fix functional usage
+
 ## [1.0.0]
 * added functional usage
 

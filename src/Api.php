@@ -17,6 +17,7 @@ class Api
     public static function newFromEnv(array $subjectNames = []) : self
     {
         $env = Env::new();
+
         $outbounds = Outbounds::new(
             $env->getStreamStorageConfigEnvPrefix(),
             $env->getStreamTableName(),
