@@ -7,13 +7,9 @@ namespace FluxEco\GlobalStream\Adapters;
 use FluxEco\GlobalStream\Adapters;
 use FluxEco\GlobalStream\Core;
 use FluxEco\GlobalStream\Core\Ports;
-use FluxEco\GlobalStream\Adapters\ValueObjectProvider\ValueObjectAdapter;
-use FluxEco\GlobalStream\Adapters\Publisher\Message;
 use fluxValueObject;
 use fluxStorage;
-use fluxJsonSchemaDocument;
 use fluxProjection;
-use FluxEco\GlobalStream\Core\Domain;
 
 class Outbounds implements Core\Ports\Outbounds
 {
@@ -40,26 +36,6 @@ class Outbounds implements Core\Ports\Outbounds
         return new self($streamStorageConfigEnvPrefix, $streamTableName, $streamStateSchemaFile);
     }
 
-    final public function getGlobalStreamStorageClient() : Ports\Storage\GlobalStreamStorageClient
-    {
-        return Adapters\Storage\GlobalStreamStorageClient::new($this->streamStorageName, $this->streamTableName,
-            $this->streamStateSchema);
-    }
-
-    final public function getValueObjectProvider() : Ports\ValueObject\ValueObjectProviderClient
-    {
-        return Adapters\ValueObjectProvider\ValueObjectProviderClient::new();
-    }
-
-
-
-    public function getStatePublisher() : Ports\Publisher\StatePublisher
-    {
-        $consumerRegistry = Adapters\Publisher\ConsumerRegistry::new(
-            Adapters\Publisher\ConsumerRegistry::SUBJECT_AGGREGATE_ROOT, [Adapters\Projection\ProjectionClient::new()]
-        );
-        return Adapters\Publisher\StatePublisherClient::new($consumerRegistry);
-    }
 
     public function getCurrentTime() : string
     {

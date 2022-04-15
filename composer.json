@@ -1,7 +1,7 @@
 {
   "name": "flux-eco/global-stream",
   "description": "Stores cross domain events and publishes them to subscribed consumers",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "flux-app",
   "keywords": [
     "flux-eco",
