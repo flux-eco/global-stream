@@ -9,7 +9,7 @@ class GlobalStream
 {
     protected static ?self $instance = null;
 
-    private array $loadedSubjects = [];
+    private array $loadedChannels = [];
 
     /** @var StateChanged[] */
     private array $recordedStates = [];
@@ -32,28 +32,28 @@ class GlobalStream
 
     public static function new(
         Ports\Outbounds $outbounds,
-        array  $subjectNames
+        array  $channelNames
     ): self
     {
         if (static::$instance === null) {
             static::$instance = new self($outbounds);
         }
-        foreach ($subjectNames as $subjectName) {
-            if (!array_key_exists($subjectName, static::$instance->loadedSubjects)) {
-                static::$instance->loadCurrentStates($subjectName);
+        foreach ($channelNames as $channelName) {
+            if (!array_key_exists($channelName, static::$instance->loadedChannels)) {
+                static::$instance->loadCurrentStates($channelName);
             }
         }
         return static::$instance;
     }
 
-    final public function loadCurrentStates(string $subjectName): void
+    final public function loadCurrentStates(string $channelName): void
     {
-        $queriedRows = $this->outbounds->queryStates($subjectName);
+        $queriedRows = $this->outbounds->queryStates($channelName);
         foreach ($queriedRows as $state) {
             $subjectId = $state->getSubjectId();
             $this->applyState($subjectId, $state);
         }
-        $this->loadedSubjects[] = $subjectName;
+        $this->loadedChannels[] = $channelName;
     }
 
     final public function applyRecordAndPublish(StateChanged $state): void
@@ -123,17 +123,16 @@ class GlobalStream
         if ($this->hasRecordedStates() === true) {
             foreach ($this->recordedStates as $recordedState) {
                 $this->outbounds->storeState(
-                    $recordedState->getSequence(),
                     $recordedState->getCorrelationId(),
                     $recordedState->getCreatedBy(),
                     $recordedState->getCreatedDateTime(),
+                    $recordedState->getChannel(),
                     $recordedState->getSubjectId(),
                     $recordedState->getSubjectSequence(),
                     $recordedState->getSubject(),
                     $recordedState->getSubjectName(),
-                    $recordedState->getJsonRootObjectSchema(),
                     $recordedState->getEventName(),
-                    $recordedState->getCurrentState()
+                    $recordedState->getPayload()
                 );
             }
             $this->flushRecordedStates();

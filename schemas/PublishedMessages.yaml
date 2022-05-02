@@ -1,0 +1,14 @@
+---
+$id: urn:ch:flux-app::GlobalStream
+name: GlobalStream
+properties:
+  subscriber:
+    type: string
+  channel:
+    type: string
+  lastSequence:
+    type: integer
+  lastDateTime:
+    type: string
+    format: date-time
+...
