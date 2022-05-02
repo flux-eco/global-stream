@@ -2,8 +2,6 @@
 $id: urn:ch:flux-app::GlobalStream
 name: GlobalStream
 properties:
-  sequence:
-    type: integer
   correlationId:
     type: string
   createdBy:
@@ -12,6 +10,8 @@ properties:
   createdDateTime:
     type: string
     format: date-time
+  channel:
+    type: string
   subject:
     type: string
   subjectId:
@@ -20,8 +20,6 @@ properties:
     type: integer
   subjectName:
     type: string
-  jsonRootObjectSchema:
-    type: object
   eventName:
     type: string
   currentState:

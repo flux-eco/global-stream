@@ -32,9 +32,6 @@ class PublishGlobalEventProcess
         $notifySubscribersCommand = Handlers\NotifySubscribersCommand::new($globalEvent);
         $notifySubscribersHandler = Handlers\NotifySubscribersHandler::new($this->eventNotifierClient);
         $this->process($notifySubscribersCommand, $notifySubscribersHandler);
-
-
-
     }
 
     private function process(Handlers\Command $command, Handlers\Handler $handler): void

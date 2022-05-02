@@ -7,23 +7,25 @@ use FluxEco\GlobalStream\Core;
 interface Outbounds
 {
 
-    public function createGlobalStreamStorage(): void;
+    public function createGlobalStreamStorages(): void;
 
-    public function storeState(int    $sequence,
+    public function storeState(
         string $correlationId,
         string $createdBy,
         string $createdDateTime,
+        string $channel,
         string $subjectId,
         int    $subjectSequence,
         string $subject,
         string $subjectName,
-        string $jsonRootObjectSchema,
         string $eventName,
         string $currentState
     ): void;
 
     /** @return Core\Domain\StateChanged[] */
-    public function queryStates(string $subjectName): array;
+    public function queryStates(string $channelName): array;
+
+    public function notify(string $channel) : void;
 
     public function getNewUuid(): string;
 

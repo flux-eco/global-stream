@@ -28,7 +28,7 @@ class CreateGlobalStreamStorageHandler
 
     public function handle()
     {
-        $this->outbounds->createGlobalStreamStorage();
+        $this->outbounds->createGlobalStreamStorages();
     }
 
 }

@@ -9,39 +9,39 @@ class StateChanged
     private string $correlationId;
     private string $createdBy;
     private string $createdDateTime;
+    private string $channel;
     private string $subject;
     private string $subjectId;
     private int $subjectSequence;
     private string $subjectName;
-    private string $jsonRootObjectSchema;
     private string $eventName;
-    private string $currentState;
+    private string $payload;
 
     private function __construct(
         int    $sequence,
         string $correlationId,
         string $createdBy,
         string $createdDateTime,
+        string $channel,
         string $subject,
         string $subjectId,
         int    $subjectSequence,
         string $subjectName,
-        string $jsonRootObjectSchema,
         string $eventName,
-        string $currentState
+        string $payload
     )
     {
         $this->sequence = $sequence;
         $this->correlationId = $correlationId;
         $this->createdBy = $createdBy;
         $this->createdDateTime = $createdDateTime;
+        $this->channel = $channel;
         $this->subject = $subject;
         $this->subjectId = $subjectId;
         $this->subjectSequence = $subjectSequence;
         $this->subjectName = $subjectName;
-        $this->jsonRootObjectSchema = $jsonRootObjectSchema;
         $this->eventName = $eventName;
-        $this->currentState = $currentState;
+        $this->payload = $payload;
     }
 
     public static function new(
@@ -49,26 +49,26 @@ class StateChanged
         string $correlationId,
         string $createdBy,
         string $createdDateTime,
+        string $channel,
         string $subject,
         string $subjectId,
         int    $subjectSequence,
         string $subjectName,
-        string $jsonRootObjectSchema,
         string $eventName,
-        string $currentState
+        string $payload
     ): self
     {
         return new self($sequence,
             $correlationId,
             $createdBy,
             $createdDateTime,
+            $channel,
             $subject,
             $subjectId,
             $subjectSequence,
             $subjectName,
-            $jsonRootObjectSchema,
             $eventName,
-            $currentState);
+            $payload);
     }
 
     final public function getSequence(): int
@@ -91,6 +91,12 @@ class StateChanged
         return $this->createdDateTime;
     }
 
+    final public function getChannel() : string
+    {
+        return $this->channel;
+    }
+
+
       final public function getSubject(): string
       {
           return $this->subject;
@@ -111,18 +117,13 @@ class StateChanged
         return $this->subjectName;
     }
 
-    final public function getJsonRootObjectSchema(): string
-    {
-        return $this->jsonRootObjectSchema;
-    }
-
     final public function getEventName(): string
     {
         return $this->eventName;
     }
 
-    final public function getCurrentState(): string
+    final public function getPayload(): string
     {
-        return $this->currentState;
+        return $this->payload;
     }
 }

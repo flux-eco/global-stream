@@ -33,7 +33,7 @@ class MessageAdapter
 
         $messageName = $currentState->getEventName();
 
-        $payload = $currentState->getCurrentState();
+        $payload = $currentState->getPayload();
 
 
         return Message::new(

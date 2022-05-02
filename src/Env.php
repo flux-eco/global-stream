@@ -8,6 +8,9 @@ class Env
     const STREAM_STORAGE_NAME = 'STREAM_STORAGE_NAME';
     const STREAM_TABLE_NAME = 'STREAM_TABLE_NAME';
     const STREAM_STATE_SCHEMA_FILE = 'STREAM_STATE_SCHEMA_FILE';
+    const STREAM_PUBLISHED_MESSAGES_TABLE_NAME = 'STREAM_PUBLISHED_MESSAGES_TABLE_NAME';
+    const STREAM_PUBLISHED_MESSAGES_SCHEMA_FILE = 'STREAM_PUBLISHED_MESSAGES_SCHEMA_FILE';
+    const CHANNEL_CONFIG_FILE = 'CHANNEL_CONFIG_FILE';
 
     private function __construct()
     {
@@ -38,4 +41,20 @@ class Env
     {
         return getEnv(self::STREAM_STATE_SCHEMA_FILE);
     }
+
+    public function getStreamPublishedMessagesTableName() : string
+    {
+        return getEnv(self::STREAM_PUBLISHED_MESSAGES_TABLE_NAME);
+    }
+
+    public function getStreamPublishedMessagesSchemaFile() : string
+    {
+        return getEnv(self::STREAM_PUBLISHED_MESSAGES_SCHEMA_FILE);
+    }
+
+    public function getChannels() : array
+    {
+        return  yaml_parse(file_get_contents(getEnv(self::CHANNEL_CONFIG_FILE)));
+    }
+
 }

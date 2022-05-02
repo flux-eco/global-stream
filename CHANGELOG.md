@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## [1.1.0]
+* notification handling
+
 ## [1.0.1]
 * fix functional usage
 

@@ -18,16 +18,16 @@ class GlobalStreamStatesAdapter
     {
         $states = [];
         foreach ($queryResult as $row) {
-            $states[$row['sequence']] = StateChanged::new(
-                $row['sequence'],
+            $states[$row['autoSeq']] = StateChanged::new(
+                $row['autoSeq'],
                 $row['correlationId'],
                 $row['createdBy'],
                 $row['createdDateTime'],
+                $row['channel'],
                 $row['subject'],
                 $row['subjectId'],
                 $row['subjectSequence'],
                 $row['subjectName'],
-                $row['jsonRootObjectSchema'],
                 $row['eventName'],
                 $row['currentState'],
             );

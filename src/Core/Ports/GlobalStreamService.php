@@ -20,12 +20,12 @@ class GlobalStreamService
 
     final public static function new(
         Ports\Outbounds $outbounds,
-        array $subjectNames
+        array $channelNames
     ): self
     {
 
         $globalStream = Domain\GlobalStream::new(
-            $outbounds, $subjectNames
+            $outbounds, $channelNames
         );
 
         return new self(
@@ -34,7 +34,7 @@ class GlobalStreamService
         );
     }
 
-    final public function createGlobalStreamStorage(): void
+    final public function createGlobalStreamStorages(): void
     {
         $handler = Handlers\CreateGlobalStreamStorageHandler::new($this->outbounds);
         $handler->handle();
@@ -43,11 +43,11 @@ class GlobalStreamService
     final public function publishStateChange(
         string $correlationId,
         string $createdBy,
+        string $channel,
         string $subject,
         string $subjectId,
         int    $subjectSequence,
         string $subjectName,
-        string $jsonRootObjectSchema,
         string $eventName,
         string $currentState
     ): void
@@ -61,11 +61,11 @@ class GlobalStreamService
             $correlationId,
             $createdBy,
             $createdDateTime,
+            $channel,
             $subject,
             $subjectId,
             $subjectSequence,
             $subjectName,
-            $jsonRootObjectSchema,
             $eventName,
             $currentState
         );
@@ -78,5 +78,9 @@ class GlobalStreamService
         foreach($states as $state) {
             $this->outbounds->publishStateChanged($state);
         }
+    }
+
+    final public function notify(string $channelName): void {
+        $this->outbounds->notify($channelName);
     }
 }

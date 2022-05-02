@@ -1,7 +1,7 @@
 {
   "name": "flux-eco/global-stream",
   "description": "Stores cross domain events and publishes them to subscribed consumers",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "type": "flux-app",
   "keywords": [
     "flux-eco",
@@ -37,6 +37,7 @@
   "autoload": {
     "files": [
       "fn/initialize.php",
+      "fn/notify.php",
       "fn/publishStateChange.php",
       "fn/republishAllStates.php"
     ],
